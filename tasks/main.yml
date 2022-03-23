@@ -1,0 +1,3 @@
+---
+# tasks file for nodejsapp
+- include_tasks: install_nodejs.yml

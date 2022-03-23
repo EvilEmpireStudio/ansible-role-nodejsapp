@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include evilempire.nodejsapp"
+      include_role:
+        name: "evilempire.nodejsapp"
