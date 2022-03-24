@@ -1,17 +1,4 @@
 ---
-- name: Install dependencies
-  apt:
-    name:
-      - gnupg2
-      - git
-      - rsync
-    state: present
-    update_cache: true
-
-- name: Upgrade OS
-  apt:
-    upgrade: dist
-
 - name: Add NodeSource package key
   apt_key:
     state: present

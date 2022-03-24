@@ -2,6 +2,20 @@
 - name: Converge
   hosts: all
   become: yes
+
+  pre_tasks:
+    - name: Ensure dependencies presence
+      apt:
+        name:
+          - gnupg2
+          - git
+          - rsync
+        state: present
+        update_cache: true
+    - name: Upgrade host
+      apt:
+        upgrade: dist
+
   roles:
     - role: "evilempire.nodejsapp"
       nodejsapp_name: hello

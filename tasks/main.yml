@@ -1,4 +1,5 @@
 ---
 # tasks file for nodejsapp
 - include_tasks: install_nodejs.yml
+  when: nodejsapp_install_nodejs
 - include_tasks: deploy_app.yml
