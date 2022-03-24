@@ -2,3 +2,6 @@
 # defaults file for nodejsapp
 nodejsapp_node_main_version: 16
 nodejsapp_node_minor_version: 14.2
+
+nodejsapp_dest_dir: /opt/{{ nodejsapp_name }}
+nodejsapp_service_file_path: nodejsapp.service.j2

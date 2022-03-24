@@ -1,7 +1,7 @@
 ---
 - name: Install dependencies
   apt:
-    name: ["gnupg2"]
+    name: ["gnupg2","git"]
     state: present
     update_cache: true
 

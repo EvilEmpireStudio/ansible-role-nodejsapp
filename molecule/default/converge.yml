@@ -1,7 +1,11 @@
 ---
 - name: Converge
   hosts: all
-  tasks:
-    - name: "Include evilempire.nodejsapp"
-      include_role:
-        name: "evilempire.nodejsapp"
+  become: yes
+  roles:
+    - role: "evilempire.nodejsapp"
+      nodejsapp_name: hello
+      nodejsapp_repository_url: https://github.com/johnpapa/node-hello
+      nodejsapp_repository_dest: /opt/hello
+      nodejsapp_main_file_name: index.js
+      nodejsapp_port: 8080

@@ -1,0 +1,14 @@
+[Unit]
+Description={{ nodejsapp_name }} nodejs application
+Documentation={{ nodejsapp_repository_url }}
+After=network.target
+
+[Service]
+Environment=NODE_PORT={{ nodejsapp_port }}
+Type=simple
+User=root
+ExecStart=/usr/bin/node {{ nodejsapp_dest_dir }}/{{ nodejsapp_main_file_name }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

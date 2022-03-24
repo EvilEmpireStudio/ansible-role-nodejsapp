@@ -2,11 +2,12 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: libvirt
 platforms:
   - name: instance
-    image: debian:bullseye
-    pre_build_image: false
+    box: debian/bullseye64
 provisioner:
   name: ansible
 verifier:
