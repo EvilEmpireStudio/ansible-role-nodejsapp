@@ -9,7 +9,7 @@ After=network.target
 Environment=NODE_PORT={{ nodejsapp_port }}
 Type=simple
 User=root
-ExecStart=/usr/bin/node {{ nodejsapp_dest_dir }}/{{ nodejsapp_main_file_name }}
+ExecStart=/usr/bin/node {{ nodejsapp_service_command }}
 Restart=on-failure
 
 [Install]
