@@ -20,7 +20,7 @@
   when: nodejsapp_src_path is defined
 
 - name: Install app node dependencies
-  command: npm install
+  command: npm install --prefix {{ nodejsapp_packages_file_directory }}
   args:
     chdir: "{{ nodejsapp_repository_dest }}"
 
