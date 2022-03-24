@@ -1,7 +1,10 @@
 ---
 - name: Install dependencies
   apt:
-    name: ["gnupg2","git"]
+    name:
+      - gnupg2
+      - git
+      - rsync
     state: present
     update_cache: true
 

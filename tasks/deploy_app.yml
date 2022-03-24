@@ -1,8 +1,28 @@
 ---
+- name: Test if git and local path are defined
+  fail:
+    msg: nodejsapp_repository_url and nodejsapp_src_path are both defined
+  when: nodejsapp_repository_url is defined and nodejsapp_src_path is defined
+
 - name: Deploy the nodejs app from a git repository
   git:
     repo: "{{ nodejsapp_repository_url }}"
     dest: "{{ nodejsapp_repository_dest }}"
+  when: nodejsapp_repository_url is defined
+
+- name: Deploy the nodejs app from a local repository
+  synchronize:
+    src: "{{ nodejsapp_src_path }}"
+    dest: "{{ nodejsapp_repository_dest }}"
+    owner: no
+    rsync_opts:
+      - "--exclude=.git"
+  when: nodejsapp_src_path is defined
+
+- name: Install app node dependencies
+  command: npm install
+  args:
+    chdir: "{{ nodejsapp_repository_dest }}"
 
 - name: Setup app service
   block:
