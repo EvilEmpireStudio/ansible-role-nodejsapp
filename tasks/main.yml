@@ -2,4 +2,9 @@
 # tasks file for nodejsapp
 - include_tasks: install_nodejs.yml
   when: nodejsapp_install_nodejs
-- include_tasks: deploy_app.yml
+- include_tasks: deploy_from_git.yml
+  when: not nodejsapp_clone_locally
+- include_tasks: deploy_from_local_clone.yml
+  when: nodejsapp_clone_locally
+- include_tasks: node_dependencies.yml
+- include_tasks: service.yml

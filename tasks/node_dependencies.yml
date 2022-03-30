@@ -1,0 +1,11 @@
+---
+- name: Register if dependencies directory exists
+  stat:
+    path: "{{ nodejsapp_repository_dest }}/node_modules"
+  register: node_modules_directory
+
+- name: Install app node dependencies
+  npm:
+    path: "{{ nodejsapp_packages_file_directory }}"
+    ci: yes
+  when: not node_modules_directory.stat.exists and deploy_app.changed

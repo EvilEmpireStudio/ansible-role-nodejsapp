@@ -1,0 +1,7 @@
+---
+- name: Deploy the nodejs app from a git repository
+  git:
+    repo: "{{ nodejsapp_repository_url }}"
+    dest: "{{ nodejsapp_repository_dest }}"
+    force: true
+  register: deploy_app
