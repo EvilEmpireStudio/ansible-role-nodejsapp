@@ -2,7 +2,6 @@
 - name: Converge
   hosts: all
   become: yes
-
   pre_tasks:
     - name: Ensure dependencies presence
       apt:
@@ -13,6 +12,9 @@
         state: present
         update_cache: true
 
+- name: Deploy app from public git repository
+  hosts: from-public-git
+  become: yes
   roles:
     # Test nodejsapp deploy from git repo
     - role: "evilempire.nodejsapp"
@@ -20,4 +22,20 @@
       nodejsapp_repository_url: https://github.com/johnpapa/node-hello
       nodejsapp_repository_dest: /opt/hello-from-git
       nodejsapp_main_file_name: index.js
-      nodejsapp_port: 8080
+      nodejsapp_env_vars:
+        - name: PORT
+          value: 8080
+
+- name: Deploy app from local clone
+  hosts: from-local-clone
+  become: yes
+  roles:
+    - role: "evilempire.nodejsapp"
+      nodejsapp_name: hello-from-local-clone
+      nodejsapp_clone_locally: true
+      nodejsapp_repository_url: https://github.com/johnpapa/node-hello
+      nodejsapp_repository_dest: /opt/hello-from-local-clone
+      nodejsapp_main_file_name: index.js
+      nodejsapp_env_vars:
+        - name: PORT
+          value: 8081

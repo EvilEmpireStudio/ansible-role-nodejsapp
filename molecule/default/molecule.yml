@@ -6,7 +6,9 @@ driver:
   provider:
     name: libvirt
 platforms:
-  - name: instance
+  - name: from-public-git
+    box: debian/bullseye64
+  - name: from-local-clone
     box: debian/bullseye64
 provisioner:
   name: ansible
