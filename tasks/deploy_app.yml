@@ -1,28 +1,39 @@
 ---
-- name: Test if git and local path are defined
-  fail:
-    msg: nodejsapp_repository_url and nodejsapp_src_path are both defined
-  when: nodejsapp_repository_url is defined and nodejsapp_src_path is defined
+- name: Clone locally on host before sync on host
+  local_action: ansible.builtin.shell rm -rf {{ nodejsapp_src_path }} || true; git clone {{ nodejsapp_repository_url }} {{ nodejsapp_src_path }}
+  become: false
+  when: nodejsapp_clone_locally
 
 - name: Deploy the nodejs app from a git repository
   git:
     repo: "{{ nodejsapp_repository_url }}"
     dest: "{{ nodejsapp_repository_dest }}"
-  when: nodejsapp_repository_url is defined
+    force: true
+  when: not nodejsapp_clone_locally
+  register: deploy_from_public_repository
 
 - name: Deploy the nodejs app from a local repository
   synchronize:
-    src: "{{ nodejsapp_src_path }}"
+    src: "{{ nodejsapp_src_path }}/"
     dest: "{{ nodejsapp_repository_dest }}"
     owner: no
     rsync_opts:
       - "--exclude=.git"
-  when: nodejsapp_src_path is defined
+  when: nodejsapp_clone_locally
+  register: deploy_from_local_clone
+
+- name: Register if dependencies directory exists
+  stat:
+    path: "{{ nodejsapp_repository_dest }}/node_modules"
+  register: node_modules_directory
 
 - name: Install app node dependencies
-  command: npm install --prefix {{ nodejsapp_packages_file_directory }}
-  args:
-    chdir: "{{ nodejsapp_repository_dest }}"
+  npm:
+    path: "{{ nodejsapp_packages_file_directory }}"
+    ci: yes
+  when: >
+    not node_modules_directory.stat.exists and
+    (deploy_from_public_repository.changed or deploy_from_local_clone.changed)
 
 - name: Setup app service
   block:

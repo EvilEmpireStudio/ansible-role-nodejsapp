@@ -12,14 +12,12 @@
           - rsync
         state: present
         update_cache: true
-    - name: Upgrade host
-      apt:
-        upgrade: dist
 
   roles:
+    # Test nodejsapp deploy from git repo
     - role: "evilempire.nodejsapp"
-      nodejsapp_name: hello
+      nodejsapp_name: hello-from-git
       nodejsapp_repository_url: https://github.com/johnpapa/node-hello
-      nodejsapp_repository_dest: /opt/hello
+      nodejsapp_repository_dest: /opt/hello-from-git
       nodejsapp_main_file_name: index.js
       nodejsapp_port: 8080

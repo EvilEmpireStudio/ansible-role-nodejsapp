@@ -6,5 +6,7 @@ nodejsapp_node_minor_version: 14.2
 
 nodejsapp_dest_dir: /opt/{{ nodejsapp_name }}
 nodejsapp_packages_file_directory: "{{ nodejsapp_dest_dir }}"
+nodejsapp_clone_locally: false
+nodejsapp_src_path: "/tmp/{{ nodejsapp_name }}"
 nodejsapp_service_command: "{{ nodejsapp_dest_dir }}/{{ nodejsapp_main_file_name }}"
 nodejsapp_service_file_path: nodejsapp.service.j2
