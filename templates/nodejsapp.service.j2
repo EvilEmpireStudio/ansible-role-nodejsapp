@@ -6,9 +6,11 @@ Documentation={{ nodejsapp_repository_url }}
 After=network.target
 
 [Service]
+{% if nodejsapp_env_vars is defined %}
 {% for var in nodejsapp_env_vars %}
 Environment={{ var.name }}={{ var.value }}
 {% endfor %}
+{% endif %}
 Type=simple
 User=root
 ExecStart=/usr/bin/node {{ nodejsapp_service_command }}
