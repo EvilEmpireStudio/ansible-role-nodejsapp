@@ -10,4 +10,5 @@
     owner: no
     rsync_opts:
       - "--exclude=.git"
+  notify: Restart nodejsapp service
   register: deploy_app
