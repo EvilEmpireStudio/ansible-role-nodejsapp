@@ -1,6 +1,6 @@
 ---
 - name: Clone locally before sync on host
-  local_action: ansible.builtin.git repo={{ nodejsapp_repository_url }} dest={{ nodejsapp_src_path }} force=true
+  local_action: ansible.builtin.git repo={{ nodejsapp_repository_url }} dest={{ nodejsapp_src_path }} version={{ nodejsapp_version }} force=true
   become: false
 
 - name: Deploy the nodejs app from a local repository
