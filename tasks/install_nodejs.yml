@@ -6,11 +6,11 @@
 
 - name: Add NodeSource repository
   apt_repository:
-    repo: deb https://deb.nodesource.com/node_{{ nodejsapp_node_main_version }}.x bullseye main
+    repo: deb https://deb.nodesource.com/node_{{ nodejsapp_nodejs_version_main }}.x bullseye main
 
 - name: NodeJS installed
   apt:
-    name: nodejs={{ nodejsapp_node_main_version }}.{{ nodejsapp_node_minor_version }}-deb-1nodesource1
+    name: nodejs{% if nodejsapp_nodejs_version | length > 0 %}={{ nodejsapp_nodejs_version }}{% endif %}
     state: present
     allow_downgrade: true
     update_cache: true
