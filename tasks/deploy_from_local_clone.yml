@@ -7,6 +7,7 @@
   synchronize:
     src: "{{ nodejsapp_src_path }}/"
     dest: "{{ nodejsapp_repository_dest }}"
+    archive: no
     checksum: yes
     owner: no
     rsync_opts:
