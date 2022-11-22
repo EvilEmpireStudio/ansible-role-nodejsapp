@@ -1,11 +1,14 @@
 ---
-- name: Register if dependencies directory exists
-  stat:
-    path: "{{ nodejsapp_repository_dest }}/node_modules"
-  register: node_modules_directory
+- name: Check npm packages outdated
+  shell: npm outdated
+  args:
+    chdir: "{{ nodejsapp_repository_dest }}"
+  changed_when: false
+  failed_when: false
+  register: npm_packages_need_update
 
-- name: Install app node dependencies
+- name: Update app node dependencies
   npm:
     path: "{{ nodejsapp_packages_file_directory }}"
     ci: yes
-  when: not node_modules_directory.stat.exists and deploy_app.changed
+  when: npm_packages_need_update.rc != 0
