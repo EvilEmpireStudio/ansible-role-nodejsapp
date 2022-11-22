@@ -2,15 +2,19 @@
 - name: Clone locally before sync on host
   local_action: ansible.builtin.git repo={{ nodejsapp_repository_url }} dest={{ nodejsapp_src_path }} version={{ nodejsapp_version }} force=true
   become: false
+  when: nodejsapp_clone_locally and not nodejsapp_deploy_from_ci
 
 - name: Deploy the nodejs app from a local repository
   synchronize:
     src: "{{ nodejsapp_src_path }}/"
     dest: "{{ nodejsapp_repository_dest }}"
-    archive: no
+    archive: yes
     checksum: yes
+    times: no
     owner: no
     rsync_opts:
       - "--exclude=.git"
+      - "--chmod=F644"
+      - "--chmod=D755"
   notify: Restart nodejsapp service
   register: deploy_app

@@ -1,0 +1,14 @@
+---
+- name: Fail if nodejsapp_clone_locally and nodejsapp_deploy_from_ci are both true
+  fail:
+    msg: "nodejsapp_clone_locally and nodejsapp_deploy_from_ci can't be both true"
+  when:
+    - nodejsapp_clone_locally
+    - nodejsapp_deploy_from_ci
+
+- name: Fail if nodejsapp_deploy_from_ci is true and nodejsapp_repository_url is defined
+  fail:
+    msg: "It's not possible to define a nodejsapp_repository_url if nodejsapp_deploy_from_ci is true"
+  when:
+    - nodejsapp_deploy_from_ci
+    - nodejsapp_repository_url is defined

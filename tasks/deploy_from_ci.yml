@@ -1,0 +1,16 @@
+---
+- name: Deploy the nodejs app from CI
+  synchronize:
+    src: "{{ lookup('env','CI_PROJECT_DIR') }}/"
+    dest: "{{ nodejsapp_repository_dest }}"
+    archive: yes
+    checksum: yes
+    times: no
+    owner: no
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=.ci"
+      - "--chmod=F644"
+      - "--chmod=D755"
+  notify: Restart nodejsapp service
+  register: deploy_app
