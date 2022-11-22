@@ -1,5 +1,5 @@
 ---
-- name: Deploy the nodejs app from a git repository
+- name: "Deploy {{ nodejsapp_name }} nodejs app from a git repository"
   git:
     repo: "{{ nodejsapp_repository_url }}"
     dest: "{{ nodejsapp_repository_dest }}"

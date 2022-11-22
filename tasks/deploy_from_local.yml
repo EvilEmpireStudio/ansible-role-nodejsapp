@@ -4,7 +4,7 @@
   become: false
   when: nodejsapp_clone_locally and not nodejsapp_deploy_from_ci
 
-- name: Deploy the nodejs app from a local repository
+- name: "Deploy {{ nodejsapp_name }} nodejs app from a local repository"
   synchronize:
     src: "{{ nodejsapp_src_path }}/"
     dest: "{{ nodejsapp_repository_dest }}"

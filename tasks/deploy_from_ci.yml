@@ -1,5 +1,5 @@
 ---
-- name: Deploy the nodejs app from CI
+- name: "Deploy {{ nodejsapp_name }} nodejs app from CI"
   synchronize:
     src: "{{ lookup('env','CI_PROJECT_DIR') }}/"
     dest: "{{ nodejsapp_repository_dest }}"
