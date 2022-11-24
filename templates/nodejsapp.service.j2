@@ -13,7 +13,7 @@ Environment={{ var.name }}={{ var.value }}
 {% endif %}
 Type=simple
 User=root
-ExecStart=/usr/bin/node {{ nodejsapp_service_command }}
+ExecStart={{ nodejsapp_service_command }}
 Restart=on-failure
 
 [Install]
