@@ -1,38 +1,53 @@
-Role Name
-=========
+# nodejsapp
 
-A brief description of the role goes here.
+This role deploy a NodeJS application on a server. For now, it's aimed to be used on **Debian** based server. This role:
 
-Requirements
-------------
+- Install NodeJS
+- Deploy the application
+- Create a systemd service to manage the app
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Info
 
-Role Variables
---------------
+This role offers 3 types of deployment:
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- **deploy from git** (default behavior): Clone a public git repository.
+- **deploy from local clone**: Locally clone the repo before deploy it (useful with private git server context).
+- **deploy from ci**: When the role is called from a GitLab CI context.
 
-Dependencies
-------------
+## Role variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+| Name                              | Description                                                                                                     | Type   | Required | Default value                                                           |
+|-----------------------------------|-----------------------------------------------------------------------------------------------------------------|--------|----------|-------------------------------------------------------------------------|
+| nodejsapp_install_nodejs          | Install NodeJS on server                                                                                        | bool   | false    | true                                                                    |
+| nodejsapp_nodejs_version          | NodeJS version package apt name to install                                                                          | string | false    | 16.18.1-deb-1nodesource1                                                |
+| nodejsapp_nodejs_version_main     | NodeJS main version to install (must be same main version than nodejsapp_nodejs_version)                        | string | false    | "{{ nodejsapp_nodejs_version[:2] }}"                                    |
+| nodejsapp_name                    | Give a name to the application to deploy                                                                        | string | true     |                                                                         |
+| nodejsapp_dest_dir                | Sources directory where the app is deployed on server                                                           | string | false    | "{{ nodejsapp_dest_dir }}"                                              |
+| nodejsapp_packages_file_directory | Directory containing the `package.json` node dependencies list to install                                       | string | false    | "{{ nodejsapp_dest_dir }}"                                              |
+| nodejsapp_clone_locally           | Clone the app locally before deploying on server (usefull for private git servers for instance)                 | bool   | false    | false                                                                   |
+| nodejsapp_deploy_from_ci          | Declare if the role is used in `GitLab CI` deployment context. Can not be `true` with `nodejsapp_clone_locally` | bool   | false    | false                                                                   |
+| nodejsapp_repository_url          | Repository URL of the NodeJS application to deploy                                                              | string | true     |                                                                         |
+| nodejsapp_version                 | Select branch or tag from the git repository NodeJS app to deploy                                               | string | false    | master                                                                  |
+| nodejsapp_src_path                | Path to clone locally the repository before deploy. Only used when `nodejsapp_clone_locally` is true            | string | false    | "/tmp/{{ nodejsapp_name }}"                                             |
+| nodejsapp_service_command         | Command exectuted by systemd service to start the NodeJS app                                                    | string | false    | "/usr/bin/node {{ nodejsapp_dest_dir }}/{{ nodejsapp_main_file_name }}" |
+| nodejsapp_service_file_path       | Path to the Ansible template deployed for the systemd service file                                              | string | false    | nodejsapp.service.j2                                                    |
 
-Example Playbook
-----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```yml
+- hosts: myserver.example.com
+  become: yes
+  roles:
+    - role: nodejsapp
+      nodejsapp_install_nodejs: true
+      nodejsapp_node_version: 16.18.1-deb-1nodesource1
+      nodejsapp_name: mynodejsapp
+      nodejsapp_clone_locally: false
+      nodejsapp_repository_url: https://github.com/johnpapa/node-hello.git
+      nodejsapp_repository_dest: /opt/mynodejsapp
+      nodejsapp_main_file_name: index.js
+      nodejsapp_env_vars:
+        - name: PORT
+          value: 8000
+```
