@@ -7,8 +7,13 @@
   failed_when: false
   register: npm_packages_need_update
 
+- name: Check packages-lock file presence
+  stat:
+    path: "{{ nodejsapp_packages_file_directory }}/package-lock.json"
+  register: npm_package_lock_file
+
 - name: Update app node dependencies
   npm:
     path: "{{ nodejsapp_packages_file_directory }}"
-    ci: yes
+    ci: "{{ npm_package_lock_file.stat.exists }}"
   when: npm_packages_need_update.rc != 0
