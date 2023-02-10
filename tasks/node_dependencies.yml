@@ -2,7 +2,7 @@
 - name: Check npm packages outdated
   shell: npm outdated
   args:
-    chdir: "{{ nodejsapp_repository_dest }}"
+    chdir: "{{ nodejsapp_packages_file_directory }}"
   changed_when: false
   failed_when: false
   register: npm_packages_need_update
