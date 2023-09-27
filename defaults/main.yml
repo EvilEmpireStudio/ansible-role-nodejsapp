@@ -1,7 +1,7 @@
 ---
 # defaults file for nodejsapp
 nodejsapp_install_nodejs: true
-nodejsapp_nodejs_version: 16.18.1-deb-1nodesource1
+nodejsapp_nodejs_version: 16.20.2-deb-1nodesource1
 nodejsapp_nodejs_version_main: "{{ nodejsapp_nodejs_version[:2] }}"
 
 nodejsapp_dest_dir: /opt/{{ nodejsapp_name }}
