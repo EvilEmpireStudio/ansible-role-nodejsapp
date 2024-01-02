@@ -7,9 +7,9 @@ driver:
     name: libvirt
 platforms:
   - name: from-public-git
-    box: debian/bullseye64
+    box: debian/bookworm64
   - name: from-local-clone
-    box: debian/bullseye64
+    box: debian/bookworm64
 provisioner:
   name: ansible
 verifier:

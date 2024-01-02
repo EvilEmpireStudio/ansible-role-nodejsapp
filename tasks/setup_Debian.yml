@@ -1,0 +1,54 @@
+---
+- name: Setup NodeJS from Distro repo
+  block:
+    - name: Ensure any node apt source is absent
+      block:
+        - name: Retrieve list of node sources files
+          find:
+            paths: /etc/apt/sources.list.d
+            patterns: "deb_nodesource_com_node_*.list"
+          register: node_lists
+        - name: Delete node apt sources lists
+          file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ node_lists.files }}"
+        - name: apt autoremove if node lists deleted
+          apt:
+            name: [ "nodejs", "npm" ]
+            state: absent
+            autoremove: true
+          when: node_lists.files | length > 0
+    - name: Install Node packages
+      apt:
+        name: [ "nodejs", "npm" ]
+        state: present
+        allow_downgrade: true
+        update_cache: true
+        autoremove: true
+  when: nodejsapp_nodejs_install_from_distro_repo
+
+- name: Setup NodeJS from NodeJS repo
+  block:
+    - name: Add NodeSource package key
+      apt_key:
+        state: present
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    - name: Add NodeSource repository
+      apt_repository:
+        repo: deb https://deb.nodesource.com/node_{{ nodejsapp_nodejs_source_version_main }}.x bookworm main
+      register: node_apt_repository
+    - name: Remove nodejs if install type changed
+      apt:
+        name: [ "nodejs", "npm" ]
+        state: absent
+        autoremove: true
+      when: node_apt_repository.changed
+    - name: NodeJS installed
+      apt:
+        name: nodejs{% if nodejsapp_nodejs_source_version | length > 0 %}={{ nodejsapp_nodejs_source_version }}{% endif %}
+        state: present
+        allow_downgrade: true
+        update_cache: true
+        autoremove: true
+  when: not nodejsapp_nodejs_install_from_distro_repo
