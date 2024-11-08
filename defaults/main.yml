@@ -5,11 +5,11 @@ nodejsapp_nodejs_install_from_distro_repo: true
 nodejsapp_nodejs_source_version: 20.5.1-deb-1nodesource1
 nodejsapp_nodejs_source_version_main: "{{ nodejsapp_nodejs_source_version[:2] }}"
 
-nodejsapp_dest_dir: /opt/{{ nodejsapp_name }}
-nodejsapp_packages_file_directory: "{{ nodejsapp_dest_dir }}"
+nodejsapp_repository_dest: /opt/{{ nodejsapp_name }}
+nodejsapp_packages_file_directory: "{{ nodejsapp_repository_dest }}"
 nodejsapp_clone_locally: false
 nodejsapp_deploy_from_ci: false
 nodejsapp_version: master
 nodejsapp_src_path: "/tmp/{{ nodejsapp_name }}"
-nodejsapp_service_command: "/usr/bin/node {{ nodejsapp_dest_dir }}/{{ nodejsapp_main_file_name }}"
+nodejsapp_service_command: "/usr/bin/node {{ nodejsapp_repository_dest }}/{{ nodejsapp_main_file_name }}"
 nodejsapp_service_file_path: nodejsapp.service.j2
