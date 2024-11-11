@@ -6,3 +6,7 @@
         src: "{{ nodejsapp_service_file_path }}"
         dest: "/etc/systemd/system/{{ nodejsapp_name }}.service"
       notify: Restart nodejsapp service
+    - name: Service has to be started
+      systemd:
+        name: "{{ nodejsapp_name }}.service"
+        state: started

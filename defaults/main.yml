@@ -6,7 +6,8 @@ nodejsapp_nodejs_source_version: 20.5.1-deb-1nodesource1
 nodejsapp_nodejs_source_version_main: "{{ nodejsapp_nodejs_source_version[:2] }}"
 
 nodejsapp_repository_dest: /opt/{{ nodejsapp_name }}
-nodejsapp_packages_file_directory: "{{ nodejsapp_repository_dest }}"
+nodejsapp_working_directory: "{{ nodejsapp_repository_dest }}"
+nodejsapp_packages_file_directory: "{{ nodejsapp_working_directory }}"
 nodejsapp_clone_locally: false
 nodejsapp_deploy_from_ci: false
 nodejsapp_version: master

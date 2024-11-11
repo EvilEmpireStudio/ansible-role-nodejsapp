@@ -13,6 +13,7 @@ Environment={{ var.name }}={{ var.value }}
 {% endif %}
 Type=simple
 User=root
+WorkingDirectory={{ nodejsapp_working_directory }}
 ExecStart={{ nodejsapp_service_command }}
 Restart=on-failure
 
