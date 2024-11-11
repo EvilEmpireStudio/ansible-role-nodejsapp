@@ -1,4 +1,14 @@
 ---
+- name: Check node_modules directory presence
+  stat:
+    path: "{{ nodejsapp_packages_file_directory }}/node_modules"
+  register: npm_node_modules_directory
+
+- name: Check packages-lock file presence
+  stat:
+    path: "{{ nodejsapp_packages_file_directory }}/package-lock.json"
+  register: npm_package_lock_file
+
 - name: Check npm packages outdated
   shell: npm outdated
   args:
@@ -7,13 +17,8 @@
   failed_when: false
   register: npm_packages_need_update
 
-- name: Check packages-lock file presence
-  stat:
-    path: "{{ nodejsapp_packages_file_directory }}/package-lock.json"
-  register: npm_package_lock_file
-
 - name: Update app node dependencies
   npm:
     path: "{{ nodejsapp_packages_file_directory }}"
     ci: "{{ npm_package_lock_file.stat.exists }}"
-  when: npm_packages_need_update.rc != 0
+  when: (not npm_node_modules_directory.stat.exists) or (npm_packages_need_update.rc != 0)
