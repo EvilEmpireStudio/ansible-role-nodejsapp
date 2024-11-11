@@ -31,12 +31,16 @@
 - name: Setup NodeJS from NodeJS repo
   block:
     - name: Add NodeSource package key
-      apt_key:
-        state: present
+      # apt_key:
+      #   state: present
+      #   url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+      get_url:
         url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        dest: /etc/apt/keyrings/nodesource.asc
     - name: Add NodeSource repository
       apt_repository:
-        repo: deb https://deb.nodesource.com/node_{{ nodejsapp_nodejs_source_version_main }}.x bookworm main
+        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/nodesource.asc] https://deb.nodesource.com/node_{{ nodejsapp_nodejs_source_version_main }}.x bookworm main
+        state: present
       register: node_apt_repository
     - name: Remove nodejs if install type changed
       apt:
