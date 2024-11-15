@@ -18,4 +18,5 @@ nodejsapp_deploy_rsync_opts:
 nodejsapp_version: master
 nodejsapp_src_path: "/tmp/{{ nodejsapp_name }}"
 nodejsapp_service_command: "/usr/bin/node {{ nodejsapp_repository_dest }}/{{ nodejsapp_main_file_name }}"
+nodejsapp_service_documentation: "{{ nodejsapp_repository_url if (nodejsapp_repository_url is defined) else nodejsapp_name }}"
 nodejsapp_service_file_path: nodejsapp.service.j2

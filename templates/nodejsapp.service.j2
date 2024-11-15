@@ -1,8 +1,6 @@
 [Unit]
 Description={{ nodejsapp_name }} nodejs application
-{% if nodejsapp_repository_url is defined %}
-Documentation={{ nodejsapp_repository_url }}
-{% endif %}
+Documentation={{ nodejsapp_service_documentation }}
 After=network.target
 
 [Service]

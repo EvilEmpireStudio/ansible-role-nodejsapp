@@ -34,6 +34,7 @@ This role offers 3 types of deployment:
 | nodejsapp_version                           | Select branch or tag from the git repository NodeJS app to deploy                                               | string | false    | master                                                                         |
 | nodejsapp_src_path                          | Path to clone locally the repository before deploy. Only used when `nodejsapp_clone_locally` is true            | string | false    | "/tmp/{{ nodejsapp_name }}"                                                    |
 | nodejsapp_service_command                   | Command executed by systemd service to start the NodeJS app                                                     | string | false    | "/usr/bin/node {{ nodejsapp_repository_dest }}/{{ nodejsapp_main_file_name }}" |
+| nodejsapp_service_documentation             | Documentation URL displayed in systemd service file                                                             | string | false    | nodejsapp_repository_url or nodejsapp_name                                     |
 | nodejsapp_service_file_path                 | Path to the Ansible template deployed for the systemd service file                                              | string | false    | nodejsapp.service.j2                                                           |
 
 
