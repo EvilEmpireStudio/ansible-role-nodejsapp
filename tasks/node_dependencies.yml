@@ -17,8 +17,7 @@
   failed_when: false
   register: npm_packages_need_update
 
-- name: Update app node dependencies
+- name: Setup node dependencies
   npm:
     path: "{{ nodejsapp_packages_file_directory }}"
-    ci: "{{ npm_package_lock_file.stat.exists }}"
-  when: (not npm_node_modules_directory.stat.exists) or (npm_packages_need_update.rc != 0)
+    ci: "{{ nodejsapp_packages_locked_ci and npm_package_lock_file.stat.exists }}"
