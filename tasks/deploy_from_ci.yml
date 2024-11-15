@@ -8,10 +8,6 @@
     times: no
     owner: no
     group: no
-    rsync_opts:
-      - "--exclude=.git"
-      - "--exclude=.ci"
-      - "--chmod=F644"
-      - "--chmod=D755"
+    rsync_opts: "{{ nodejsapp_deploy_rsync_opts + [ '--chmod=F644', '--chmod=D755'] }}"
   notify: Restart nodejsapp service
   register: deploy_app

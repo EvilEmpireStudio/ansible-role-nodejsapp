@@ -11,6 +11,10 @@ nodejsapp_packages_file_directory: "{{ nodejsapp_working_directory }}"
 nodejsapp_packages_locked_ci: false
 nodejsapp_clone_locally: false
 nodejsapp_deploy_from_ci: false
+nodejsapp_deploy_rsync_opts:
+  - "--exclude=.git"
+  - "--exclude=.ci"
+
 nodejsapp_version: master
 nodejsapp_src_path: "/tmp/{{ nodejsapp_name }}"
 nodejsapp_service_command: "/usr/bin/node {{ nodejsapp_repository_dest }}/{{ nodejsapp_main_file_name }}"
