@@ -7,6 +7,7 @@
     checksum: yes
     times: no
     owner: no
+    group: no
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=.ci"
